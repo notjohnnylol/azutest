@@ -72,9 +72,9 @@ local Library = {
 
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(107, 173, 121),
-        MainColor = Color3.fromRGB(23, 17, 17),
-        AccentColor = Color3.fromRGB(220, 85, 30),
+        BackgroundColor = Color3.fromRGB(12, 18, 12,
+        MainColor = Color3.fromRGB(17, 23, 19),
+        AccentColor = Color3.fromRGB(30, 220, 106),
         OutlineColor = Color3.fromRGB(35, 35, 35),
         FontColor = Color3.new(0.92, 0.92, 0.92),
         Font = Font.fromEnum(Enum.Font.Code),
