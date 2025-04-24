@@ -72,7 +72,7 @@ local Library = {
 
     IsLightTheme = false,
     Scheme = {
-        BackgroundColor = Color3.fromRGB(23, 17, 17),
+        BackgroundColor = Color3.fromRGB(107, 173, 121),
         MainColor = Color3.fromRGB(23, 17, 17),
         AccentColor = Color3.fromRGB(220, 85, 30),
         OutlineColor = Color3.fromRGB(35, 35, 35),
