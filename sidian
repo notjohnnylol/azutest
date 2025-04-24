@@ -83,7 +83,7 @@ Scheme = {
     White = Color3.new(1, 1, 1),
     Registry = {},
     DPIRegistry = {},
-},
+}
 
     Registry = {},
     DPIRegistry = {},
