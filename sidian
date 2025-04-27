@@ -20,7 +20,7 @@ LocalPlayer = LocalPlayer,
 DevicePlatform = nil,
 IsMobile = false,
 
-ScreenGui = nil,
+CoreGui = nil,
 
 ActiveTab = nil,
 Tabs = {},
@@ -536,14 +536,14 @@ pcall(protectgui, UI);
 UI.Parent = gethui()
 end
 
-local ScreenGui = New("ScreenGui", {
+local CoreGui = New("CoreGui", {
 Name = "Obsidian",
 DisplayOrder = 999,
 ResetOnSpawn = false,
 })
-ParentUI(ScreenGui)
-Library.ScreenGui = ScreenGui
-ScreenGui.DescendantRemoving:Connect(function(Instance)
+ParentUI(CoreGui)
+Library.CoreGui = CoreGui
+CoreGui.DescendantRemoving:Connect(function(Instance)
 Library:RemoveFromRegistry(Instance)
 Library.DPIRegistry[Instance] = nil
 end)
@@ -554,7 +554,7 @@ Modal = false,
 Size = UDim2.fromScale(0, 0),
 Text = "",
 ZIndex = -999,
-Parent = ScreenGui,
+Parent = CoreGui,
 })
 
 --// Cursor
@@ -566,7 +566,7 @@ BackgroundColor3 = "White",
 Size = UDim2.fromOffset(9, 1),
 Visible = false,
 ZIndex = 999,
-Parent = ScreenGui,
+Parent = CoreGui,
 })
 New("Frame", {
 AnchorPoint = Vector2.new(0.5, 0.5),
@@ -603,7 +603,7 @@ AnchorPoint = Vector2.new(1, 0),
 BackgroundTransparency = 1,
 Position = UDim2.new(1, -6, 0, 6),
 Size = UDim2.new(0, 300, 1, -6),
-Parent = ScreenGui,
+Parent = CoreGui,
 })
 NotificationList = New("UIListLayout", {
 HorizontalAlignment = Enum.HorizontalAlignment.Right,
@@ -699,7 +699,7 @@ end
 end)
 
 Library:GiveSignal(RunService.RenderStepped:Connect(function()
-if not UI.Visible or not (ScreenGui and ScreenGui.Parent) then
+if not UI.Visible or not (CoreGui and CoreGui.Parent) then
 isDragging = false
 return
 end
@@ -754,7 +754,7 @@ end
 end)
 end)
 Library:GiveSignal(UserInputService.InputChanged:Connect(function(Input: InputObject)
-if not UI.Visible or not (ScreenGui and ScreenGui.Parent) then
+if not UI.Visible or not (CoreGui and CoreGui.Parent) then
 Dragging = false
 if Changed and Changed.Connected then
 Changed:Disconnect()
@@ -845,7 +845,7 @@ BackgroundColor3 = "BackgroundColor",
 Position = UDim2.fromOffset(6, 6),
 TextSize = 16,
 ZIndex = 10,
-Parent = ScreenGui,
+Parent = CoreGui,
 
 DPIExclude = {
 Position = true,
@@ -878,7 +878,7 @@ return Table
 end
 
 function Library:AddDraggableMenu(Name: string)
-local Background = Library:MakeOutline(ScreenGui, Library.CornerRadius, 10)
+local Background = Library:MakeOutline(CoreGui, Library.CornerRadius, 10)
 Background.AutomaticSize = Enum.AutomaticSize.Y
 Background.Position = UDim2.fromOffset(6, 6)
 Background.Size = UDim2.fromOffset(0, 0)
@@ -963,7 +963,7 @@ Size = typeof(Size) == "function" and Size() or Size,
 TopImage = "rbxasset://textures/ui/Scroll/scroll-middle.png",
 Visible = false,
 ZIndex = 10,
-Parent = ScreenGui,
+Parent = CoreGui,
 
 DPIExclude = {
 Position = true,
@@ -977,7 +977,7 @@ BorderSizePixel = 1,
 Size = typeof(Size) == "function" and Size() or Size,
 Visible = false,
 ZIndex = 10,
-Parent = ScreenGui,
+Parent = CoreGui,
 
 DPIExclude = {
 Position = true,
@@ -1106,7 +1106,7 @@ TextSize = 14,
 TextWrapped = true,
 Visible = false,
 ZIndex = 20,
-Parent = ScreenGui,
+Parent = CoreGui,
 })
 TooltipLabel:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
 local X, Y = Library:GetTextBounds(
@@ -1208,7 +1208,7 @@ Library:SafeCallback(Callback)
 end
 
 Library.Unloaded = true
-ScreenGui:Destroy()
+CoreGui:Destroy()
 getgenv().Library = nil
 end
 
@@ -3983,7 +3983,7 @@ function Library:CreateWindow(WindowInfo)
             Position = WindowInfo.Position,
             Size = WindowInfo.Size,
             Visible = false,
-            Parent = ScreenGui,
+            Parent = CoreGui,
 
             DPIExclude = {
                 Position = true,
@@ -4985,7 +4985,7 @@ function Library:CreateWindow(WindowInfo)
                 Cursor.Position = UDim2.fromOffset(Mouse.X, Mouse.Y)
                 Cursor.Visible = Library.ShowCustomCursor
 
-                if not (Library.Toggled and ScreenGui and ScreenGui.Parent) then
+                if not (Library.Toggled and CoreGui and CoreGui.Parent) then
                     UserInputService.MouseIconEnabled = OldMouseIconEnabled
                     Cursor.Visible = false
                     RunService:UnbindFromRenderStep("ShowCursor")
