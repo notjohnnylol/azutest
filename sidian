@@ -571,7 +571,7 @@ local ModalElement = New("TextButton", {
     Size = UDim2.fromScale(0, 0),
     Text = "",
     ZIndex = -999,
-    Parent = CoreGui,
+    Parent = ScreenGui,
 })
 
 --// Cursor
@@ -583,7 +583,7 @@ do
         Size = UDim2.fromOffset(9, 1),
         Visible = false,
         ZIndex = 999,
-        Parent = CoreGui,
+        Parent = ScreenGui,
     })
     New("Frame", {
         AnchorPoint = Vector2.new(0.5, 0.5),
@@ -620,7 +620,7 @@ do
         BackgroundTransparency = 1,
         Position = UDim2.new(1, -6, 0, 6),
         Size = UDim2.new(0, 300, 1, -6),
-        Parent = CoreGui,
+        Parent = ScreenGui,
     })
     NotificationList = New("UIListLayout", {
         HorizontalAlignment = Enum.HorizontalAlignment.Right,
@@ -859,7 +859,7 @@ function Library:AddDraggableButton(Text: string, Func)
         Position = UDim2.fromOffset(6, 6),
         TextSize = 16,
         ZIndex = 10,
-        Parent = CoreGui,
+        Parent = ScreenGui,
 
         DPIExclude = {
             Position = true,
@@ -977,7 +977,7 @@ function Library:AddContextMenu(
             TopImage = "rbxasset://textures/ui/Scroll/scroll-middle.png",
             Visible = false,
             ZIndex = 10,
-            Parent = CoreGui,
+            Parent = ScreenGui,
 
             DPIExclude = {
                 Position = true,
@@ -991,7 +991,7 @@ function Library:AddContextMenu(
             Size = typeof(Size) == "function" and Size() or Size,
             Visible = false,
             ZIndex = 10,
-            Parent = CoreGui,
+            Parent = ScreenGui,
 
             DPIExclude = {
                 Position = true,
@@ -1120,7 +1120,7 @@ local TooltipLabel = New("TextLabel", {
     TextWrapped = true,
     Visible = false,
     ZIndex = 20,
-    Parent = CoreGui,
+    Parent = ScreenGui,
 })
 TooltipLabel:GetPropertyChangedSignal("AbsolutePosition"):Connect(function()
     local X, Y = Library:GetTextBounds(
@@ -3998,7 +3998,7 @@ function Library:CreateWindow(WindowInfo)
             Position = WindowInfo.Position,
             Size = WindowInfo.Size,
             Visible = false,
-            Parent = CoreGui,
+            Parent = ScreenGui,
 
             DPIExclude = {
                 Position = true,
