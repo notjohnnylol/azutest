@@ -697,14 +697,19 @@ function Library:MakeDraggable(UI: GuiObject, DragFrame: GuiObject, IgnoreToggle
     local FramePos
     local Dragging = false
     local Changed
+    local velocity = Vector2.new(0, 0)
+    local lastMousePos
+    local targetPosition = UI.Position
+
     DragFrame.InputBegan:Connect(function(Input: InputObject)
-        if not IsClickInput(Input) or IsMainWindow and Library.CantDragForced then
+        if not IsClickInput(Input) or (IsMainWindow and Library.CantDragForced) then
             return
         end
 
         StartPos = Input.Position
         FramePos = UI.Position
         Dragging = true
+        lastMousePos = Input.Position
 
         Changed = Input.Changed:Connect(function()
             if Input.UserInputState ~= Enum.UserInputState.End then
@@ -718,6 +723,7 @@ function Library:MakeDraggable(UI: GuiObject, DragFrame: GuiObject, IgnoreToggle
             end
         end)
     end)
+
     Library:GiveSignal(UserInputService.InputChanged:Connect(function(Input: InputObject)
         if
             (not IgnoreToggled and not Library.Toggled)
@@ -734,11 +740,30 @@ function Library:MakeDraggable(UI: GuiObject, DragFrame: GuiObject, IgnoreToggle
         end
 
         if Dragging and IsHoverInput(Input) then
-            local Delta = Input.Position - StartPos
-            UI.Position =
-                UDim2.new(FramePos.X.Scale, FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)
+            local currentMousePos = Input.Position
+            if lastMousePos then
+                local mouseDelta = currentMousePos - lastMousePos
+                velocity = mouseDelta
+            end
+            lastMousePos = currentMousePos
+            local delta = currentMousePos - StartPos
+            targetPosition = UDim2.new(FramePos.X.Scale, FramePos.X.Offset + delta.X, FramePos.Y.Scale, FramePos.Y.Offset + delta.Y)
         end
     end))
+
+    RunService:BindToRenderStep("SmoothDrag", Enum.RenderPriority.Input.Value, function()
+        if Dragging then
+            UI.Position = UI.Position:Lerp(targetPosition, 0.1) -- lerp
+        else
+            if velocity.Magnitude > 0.1 then
+                local scaleX, scaleY = UI.Position.X.Scale, UI.Position.Y.Scale
+                UI.Position = UDim2.new(scaleX, UI.Position.X.Offset + velocity.X, scaleY, UI.Position.Y.Offset + velocity.Y)
+                velocity = velocity * 0.9 -- momentum
+            else
+                velocity = Vector2.new(0, 0)
+            end
+        end
+    end)
 end
 
 function Library:MakeResizable(UI: GuiObject, DragFrame: GuiObject, Callback: () -> ()?)
